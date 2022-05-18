@@ -5,12 +5,17 @@ import { MetadataKeys } from './enums/MetadataKeys';
 import { rules } from '../rules/rules';
 import { validateRules } from './validateRules';
 import { accessTokenValidation } from '../middlewares/accessTokenValidation.middleware';
+const util = require('util');
 
 export function controller(routePrefix: string) {
   return function (target: Function) {
     const router = AppRouter.getInstance();
 
+    console.log(util.inspect(target, false, null, true /* enable colors */));
+
     for (let key in target.prototype) {
+      console.log(key);
+
       const routeHandler = target.prototype[key];
       //Get endpoint of api
       const path = Reflect.getMetadata(
@@ -57,6 +62,9 @@ export function controller(routePrefix: string) {
         validator = validateRules();
       }
 
+      //Checking permissions
+      let checkPermissions = (req, res, next) => next();
+
       //Builds endpoint
       if (path) {
         router[method](
@@ -64,6 +72,7 @@ export function controller(routePrefix: string) {
           tokenValidaton,
           applyRules,
           validator,
+          checkPermissions,
           ...middlewares,
           routeHandler
         );
