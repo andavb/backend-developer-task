@@ -3,7 +3,7 @@ import * as jwt from 'jsonwebtoken';
 
 import { User } from '../entities';
 import { UserRefreshToken, Login } from '../interfaces/Authentication';
-import { AppDataSource } from '../config/ormconfig';
+import { getConnection } from 'typeorm';
 
 export class AuthenticationService {
   async login(user: Login) {
@@ -33,7 +33,7 @@ export class AuthenticationService {
     });
 
     await User.update(u.id, {
-      refresh_token: '',
+      refresh_token: null,
     });
 
     return {
@@ -63,7 +63,8 @@ export class AuthenticationService {
         const new_refresh_token = this.createRefreshToken(id, username);
         const access_token = this.createAccessToken(id, username);
 
-        await AppDataSource.createQueryBuilder()
+        await getConnection()
+          .createQueryBuilder()
           .update(User)
           .set({ refresh_token: new_refresh_token })
           .where('refresh_token = :t', {

@@ -1,19 +1,14 @@
 import { Config } from './config/config';
 import app from './app';
-import { AppDataSource } from './config/ormconfig';
+import { createConnection } from 'typeorm';
 
 const main = async () => {
   try {
-    await AppDataSource.initialize()
-      .then(() => {
-        console.log('Connected to postgres!');
-      })
-      .catch((error) => {
-        console.log('Connection to postgres FAILED!');
-        console.log(error);
-      });
+    const conn = await createConnection(Config.DatabaseORM());
+    console.log('Connected to postgres!');
 
-    await AppDataSource.runMigrations();
+    console.log('Running migrations...');
+    await conn.runMigrations();
 
     return app.listen(Config.Server().Port, () => {
       console.log(`App is listening on port ${Config.Server().Port}`);

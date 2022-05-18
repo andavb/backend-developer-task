@@ -11,14 +11,13 @@ export const auth = {
       })
       .withMessage('Invalid username')
       .bail()
-      .custom(
-        async (username) =>
-          await User.findOne({
-            where: [{ username: username }],
-          }).then((user) => {
-            if (!user) throw new Error();
-          })
-      )
+      .custom(async (username) => {
+        await User.findOne({
+          where: [{ username: username }],
+        }).then((user) => {
+          if (!user) throw new Error();
+        });
+      })
       .withMessage('User doesnt exist'),
     check('password')
       .custom(async (password, { req }) => {
@@ -26,7 +25,6 @@ export const auth = {
           where: [{ username: req.body.username }],
         }).then((u) => {
           if (!u[0]) throw new Error();
-
           return bcrypt
             .compare(password, u[0].password)
             .then(async function (isMatch: Boolean) {
