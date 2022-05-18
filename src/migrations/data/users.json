@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Andrej Avbelj",
+    "username": "andrej",
+    "password": "$2a$10$4KNxKbH1/1xgHEV0b3BXeOATR2ObkgL.GtlnXTgNKlo69/q7aytva"
+  },
+  {
+    "name": "Test",
+    "username": "test",
+    "password": "$2a$10$u3zRNDZKdp4x9Vcw3OMdGerWA5YOLLiGMSONVygqk7.qQ01FGmGoq"
+  },
+  {
+    "name": "Admin",
+    "username": "admin",
+    "password": "$2a$10$7Jv04HuntdvIz.SiM55Ko.1k0KvKmw0sWU/cjye37IDBbzwo3uezm"
+  }
+]

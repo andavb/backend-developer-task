@@ -4,7 +4,7 @@ import { AppDataSource } from './config/ormconfig';
 
 const main = async () => {
   try {
-    AppDataSource.initialize()
+    await AppDataSource.initialize()
       .then(() => {
         console.log('Connected to postgres!');
       })
@@ -13,7 +13,7 @@ const main = async () => {
         console.log(error);
       });
 
-    // await AppDataSource.runMigrations();
+    await AppDataSource.runMigrations();
 
     return app.listen(Config.Server().Port, () => {
       console.log(`App is listening on port ${Config.Server().Port}`);
