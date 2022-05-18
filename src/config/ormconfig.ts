@@ -10,7 +10,7 @@ export const AppDataSource = new DataSource({
   synchronize: true,
   logging: true,
   entities: ['src/entities/**/*.ts'],
-  migrations: ['src/migration/**/*.ts'],
+  migrations: ['src/migrations/**/*.ts'],
   subscribers: [],
   useUTC: true,
   schema: 'public',
