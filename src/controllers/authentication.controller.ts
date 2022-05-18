@@ -1,7 +1,7 @@
 import { Response, Request } from 'express';
 import { matchedData } from 'express-validator';
 
-import { get, post } from '../decorators';
+import { post } from '../decorators';
 import { controller } from '../decorators/controller';
 import { AuthenticationService } from '../services/auth.service';
 import {
@@ -19,6 +19,7 @@ export class AuthenticationController {
    *  post:
    *   tags: [Authentication]
    *   summary: Login
+   *   security: []
    *   requestBody:
    *     required: true
    *     content:
@@ -65,6 +66,7 @@ export class AuthenticationController {
    *  post:
    *   tags: [Authentication]
    *   summary: Logout
+   *   security: []
    *   requestBody:
    *     required: true
    *     content:
@@ -110,6 +112,7 @@ export class AuthenticationController {
    *  post:
    *   tags: [Authentication]
    *   summary: Get new tokens with refresh token
+   *   security: []
    *   requestBody:
    *     required: true
    *     content:
