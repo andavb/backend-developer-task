@@ -62,9 +62,6 @@ export function controller(routePrefix: string) {
         validator = validateRules();
       }
 
-      //Checking permissions
-      let checkPermissions = (req, res, next) => next();
-
       //Builds endpoint
       if (path) {
         router[method](
@@ -72,7 +69,6 @@ export function controller(routePrefix: string) {
           tokenValidaton,
           applyRules,
           validator,
-          checkPermissions,
           ...middlewares,
           routeHandler
         );
