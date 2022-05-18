@@ -22,7 +22,7 @@ export const accessTokenValidation: RequestHandler = (
 
   hasAccess
     .then((a) => {
-      req.body.profile_id = a;
+      req.body.user_id = a;
       next();
     })
     .catch((err) => {
