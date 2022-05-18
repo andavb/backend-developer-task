@@ -1,0 +1,10 @@
+node_modules
+**/dist
+dist/
+
+.js
+.js.map
+
+.vscode
+
+.env
