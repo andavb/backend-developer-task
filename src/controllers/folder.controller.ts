@@ -4,6 +4,7 @@ import { controller } from '../decorators/controller';
 import {
   FolderCreationAttrubutes,
   FolderGetAttrubutes,
+  FolderGetByIdAttrubutes,
   FolderRemoveAttrubutes,
   FolderUpdateAttrubutes,
 } from '../interfaces/Folder';
@@ -13,6 +14,41 @@ const folderService = new FolderService();
 
 @controller('/folder')
 export class FolderController {
+  /**
+   * @swagger
+   * /folder/get/:
+   *  get:
+   *   tags: [Folder]
+   *   summary: Get my folders
+   *   requestBody:
+   *   responses:
+   *    200:
+   *      description: Read
+   *      content:
+   *        application/json:
+   *          schema:
+   *            type: object
+   *            properties:
+   *              isSuccess:
+   *                type: boolean
+   *                example: true
+   *              data:
+   *                type: object
+   *                properties:
+   *                  info:
+   *                    type: string
+   *                    example: {}
+   *    422:
+   *      description: Invalid request
+   */
+  @get('/get')
+  async get(req: Request, res: Response) {
+    const payload = req.body as FolderGetAttrubutes;
+
+    let u = await folderService.get(payload);
+    return res.json({ isSuccess: true, data: u });
+  }
+
   /**
    * @swagger
    * /folder/get/{folderId}:
@@ -48,12 +84,12 @@ export class FolderController {
    *      description: Invalid request
    */
   @get('/get/:folderId')
-  async get(req: Request, res: Response) {
+  async getById(req: Request, res: Response) {
     const payload = {
       folder: req.params.folderId,
-    } as FolderGetAttrubutes;
+    } as FolderGetByIdAttrubutes;
 
-    let u = await folderService.get(payload);
+    let u = await folderService.getById(payload);
     return res.json({ isSuccess: true, data: u });
   }
 

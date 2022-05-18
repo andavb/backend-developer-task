@@ -2,12 +2,19 @@ import { Folder, User } from '../entities';
 import {
   FolderCreationAttrubutes,
   FolderGetAttrubutes,
+  FolderGetByIdAttrubutes,
   FolderRemoveAttrubutes,
   FolderUpdateAttrubutes,
 } from '../interfaces/Folder';
 
 export class FolderService {
-  async get({ folder }: FolderGetAttrubutes) {
+  async get({ user_id }: FolderGetAttrubutes) {
+    return await Folder.find({
+      where: [{ user: user_id }],
+    });
+  }
+
+  async getById({ folder }: FolderGetByIdAttrubutes) {
     return await Folder.findOne(folder);
   }
 

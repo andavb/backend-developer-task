@@ -2,7 +2,8 @@ import { check } from 'express-validator';
 import { Folder } from '../entities';
 
 export const folder = {
-  get: [
+  get: [check('user_id').exists().withMessage('User id is missing')],
+  getById: [
     check('user_id').exists(),
     check('folderId')
       .exists({ checkFalsy: true })
