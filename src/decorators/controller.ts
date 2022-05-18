@@ -11,11 +11,7 @@ export function controller(routePrefix: string) {
   return function (target: Function) {
     const router = AppRouter.getInstance();
 
-    console.log(util.inspect(target, false, null, true /* enable colors */));
-
     for (let key in target.prototype) {
-      console.log(key);
-
       const routeHandler = target.prototype[key];
       //Get endpoint of api
       const path = Reflect.getMetadata(

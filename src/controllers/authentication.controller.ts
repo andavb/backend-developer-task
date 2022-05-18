@@ -53,7 +53,6 @@ export class AuthenticationController {
   @post('/login')
   async login(req: Request, res: Response) {
     const payload = matchedData(req) as Login;
-    console.log(payload);
     const token = authenticationService.login(payload);
 
     const t = await token;
