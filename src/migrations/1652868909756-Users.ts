@@ -8,6 +8,7 @@ export class Users1652868909756 implements MigrationInterface {
       .insert()
       .into('User')
       .values(users)
+      .orIgnore(`("username") DO NOTHING`)
       .execute();
 
     if (r) {
