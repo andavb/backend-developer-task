@@ -5,6 +5,9 @@ import { AppRouter } from './router/AppRouter';
 const swaggerJsDocs = require('swagger-jsdoc');
 const swaggerUI = require('swagger-ui-express');
 
+//Controllers ...
+import './controllers/authentication.controller';
+
 const swaggerOptions = {
   swaggerDefinition: {
     openapi: '3.0.1', // Essesntial
@@ -37,7 +40,7 @@ const specs = swaggerJsDocs(swaggerOptions); //Init swagger specs
 
 const app = express();
 
-app.use('/', swaggerUI.serve, swaggerUI.setup(specs)); //Serve swagger on root
+app.use('/apis', swaggerUI.serve, swaggerUI.setup(specs)); //Serve swagger on root
 
 app.use(express.json()); //allow to parse JSON
 app.use(express.urlencoded({ extended: true })); //allows for rich objects and arrays to be encoded into the URL-encoded format
