@@ -1,15 +1,27 @@
-import express, { Express, Request, Response } from 'express';
-import dotenv from 'dotenv';
+import { Config } from './config/config';
+import app from './app';
+import { AppDataSource } from './config/ormconfig';
 
-dotenv.config();
+const main = async () => {
+  try {
+    AppDataSource.initialize()
+      .then(() => {
+        console.log('Connected to postgres!');
+      })
+      .catch((error) => {
+        console.log('Connection to postgres FAILED!');
+        console.log(error);
+      });
 
-const app: Express = express();
-const port = process.env.PORT;
+    // await AppDataSource.runMigrations();
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Server');
-});
+    return app.listen(Config.Server().Port, () => {
+      console.log(`App is listening on port ${Config.Server().Port}`);
+    });
+  } catch (error) {
+    console.log(error);
+    throw new Error('Initialization failed');
+  }
+};
 
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
-});
+main();
