@@ -1,9 +1,10 @@
-import { Entity, Column, OneToMany } from 'typeorm';
+import { Entity, Column, OneToMany, Unique } from 'typeorm';
 import { Folder } from './Folder.entity';
 import { Model } from './Model.entity';
 import { Note } from './Note.entity';
 
 @Entity('User')
+@Unique(['username'])
 export class User extends Model {
   @Column({
     length: 100,
