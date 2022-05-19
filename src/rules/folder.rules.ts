@@ -25,6 +25,7 @@ export const folder = {
       .withMessage('Folder id is missing')
       .bail()
       .custom(async (id, { req }) => await checkIfFolderExists(id, req)),
+    check('name').exists({ checkFalsy: true }),
   ],
   remove: [
     check('user_id').exists(),
@@ -36,7 +37,7 @@ export const folder = {
   ],
 };
 
-const checkIfFolderExists = async (id: string, req: any) => {
+export const checkIfFolderExists = async (id: string, req: any) => {
   await Folder.findOne({ where: { id }, relations: ['user'] }).then((u) => {
     if (!u) throw new Error('Folder does not exists');
     if (u.user.id !== req.body.user_id)
