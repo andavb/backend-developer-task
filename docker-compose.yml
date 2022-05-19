@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+    api:
+        build: .
+        image: backend-developer-task
+        environment:
+            DB_URL: db
+            DB_PORT: 5432
+            DB_USERNAME: ${DB_USERNAME}
+            DB_PASSWORD: ${DB_PASSWORD}
+        depends_on: 
+            - "db"
+        ports:
+            - '${DOMAIN_PORT}:${DOMAIN_PORT}'
+    db:
+        container_name: db
+        image: 'postgres'
+        restart: always
+        environment: 
+            POSTGRES_DB: ${DB_NAME}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+        volumes:
+            - .:/docker-entrypoint-initdb.d
+        ports: 
+            - '${DB_PORT}:5432'
+
