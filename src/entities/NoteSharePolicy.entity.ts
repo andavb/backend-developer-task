@@ -2,7 +2,7 @@ import { Column, Entity, JoinColumn, OneToMany } from 'typeorm';
 import { Model } from './Model.entity';
 import { Note } from './Note.entity';
 
-enum TypeOfSharePolicy {
+export enum TypeOfSharePolicy {
   PRIVATE = 'PRIVATE',
   PUBLIC = 'PUBLIC',
 }

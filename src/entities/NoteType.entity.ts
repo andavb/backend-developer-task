@@ -2,7 +2,7 @@ import { Column, Entity, JoinColumn, OneToMany } from 'typeorm';
 import { Model } from './Model.entity';
 import { Note } from './Note.entity';
 
-enum TypeOfNote {
+export enum TypeOfNote {
   TEXT = 'TEXT',
   LIST = 'LIST',
 }
