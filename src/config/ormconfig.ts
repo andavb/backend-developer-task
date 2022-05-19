@@ -8,10 +8,10 @@ export default {
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   entities: ['src/entities/**/*.ts'],
-  migrations: ['src/migration/**/*.ts'],
+  migrations: ['src/migrations/**/*.ts'],
   cli: {
     entitiesDir: 'src/entities',
-    migrationsDir: 'src/migration',
+    migrationsDir: 'src/migrations',
   },
   synchronize: true,
   useUTC: true,
