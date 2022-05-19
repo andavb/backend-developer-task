@@ -12,6 +12,11 @@ const main = async () => {
 
     return app.listen(Config.Server().Port, () => {
       console.log(`App is listening on port ${Config.Server().Port}`);
+      console.log(
+        `Open link: ${Config.Domain().http}${Config.Domain().name}:${
+          Config.Server().Port
+        }/apis`
+      );
     });
   } catch (error) {
     console.log(error);

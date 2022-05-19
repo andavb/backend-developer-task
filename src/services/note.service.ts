@@ -28,7 +28,6 @@ export class NoteService {
     note_folder_filter,
     note_text_filter,
   }: NotesGetAttrubutes) {
-    console.log(note_folder_filter);
     let query = Note.createQueryBuilder('note')
       .leftJoinAndSelect('note.folder', 'folder')
       .leftJoinAndSelect('note.type', 'type')
