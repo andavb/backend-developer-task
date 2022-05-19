@@ -1,9 +1,55 @@
 import { check, query } from 'express-validator';
 import { Note, TypeOfNote, TypeOfSharePolicy } from '../entities';
+import { SortingASCDESC } from '../interfaces/Note';
 import { checkIfFolderExists } from './folder.rules';
 
 export const note = {
   get: [
+    check('user_id').exists().withMessage('User id is missing'),
+    query('offset')
+      .optional()
+      .exists()
+      .withMessage('Offset is not integer')
+      .custom((offset) => {
+        if (offset < 1) throw new Error('Minimum offset value is 0');
+        return true;
+      }),
+    query('limit')
+      .optional()
+      .exists()
+      .withMessage('Limit is not integer')
+      .custom((limit) => {
+        if (limit < 1) throw new Error('Minimum limit value is 1');
+        return true;
+      }),
+    query('heading_sort')
+      .optional()
+      .exists()
+      .custom((heading_sort) => {
+        if (!(heading_sort in SortingASCDESC))
+          throw new Error('Heading sort should be ASC or DESC');
+        return true;
+      }),
+    query('policy_sort')
+      .optional()
+      .exists()
+      .custom((policy_sort) => {
+        if (!(policy_sort in TypeOfSharePolicy))
+          throw new Error('Policy sort should be PRIVATE or PUBLIC');
+        return true;
+      }),
+    query('policy_filter')
+      .optional()
+      .exists()
+      .custom((policy_filter) => {
+        if (!(policy_filter in TypeOfSharePolicy))
+          throw new Error('Policy sort should be PRIVATE or PUBLIC');
+        return true;
+      }),
+    query('note_folder_filter').optional().exists({ checkFalsy: true }),
+    query('note_text_filter').optional().exists({ checkFalsy: true }),
+  ],
+  getNoteById: [
     check('user_id').exists(),
     check('noteId')
       .exists({ checkFalsy: true })
@@ -84,12 +130,34 @@ export const note = {
       ),
   ],
   remove: [
-    check('user_id').exists(),
-    check('note')
+    query('user_id').exists(),
+    query('note')
       .exists({ checkFalsy: true })
       .withMessage('Note id is missing')
       .bail()
       .custom(async (id, { req }) => await checkIfNoteExists(id, req)),
+  ],
+  addNoteBody: [
+    check('user_id').exists(),
+    query('note')
+      .exists({ checkFalsy: true })
+      .withMessage('Note id is missing')
+      .bail()
+      .custom(async (id, { req }) => await checkIfNoteExists(id, req)),
+    query('note_body')
+      .exists()
+      .withMessage('Note body is missing')
+      .bail()
+      .custom(
+        async (
+          note_body,
+          {
+            req: {
+              query: { note },
+            },
+          }
+        ) => await checkIfNoteIsList(note)
+      ),
   ],
 };
 
@@ -98,5 +166,14 @@ const checkIfNoteExists = async (id: string, req: any) => {
     if (!u) throw new Error('Note does not exists');
     if (u.user.id !== req.body.user_id)
       throw new Error('You are not owner of the note');
+  });
+};
+
+const checkIfNoteIsList = async (id: string) => {
+  await Note.findOne({ where: { id }, relations: ['type'] }).then((u) => {
+    if (u.type.type !== TypeOfNote.LIST)
+      throw new Error(
+        'Cannot add new note body, because the Note is not the type of LIST'
+      );
   });
 };
