@@ -1,3 +1,13 @@
 # Credentials
 
-Provide a file with a list of usernames and passwords that we can use for testing.
+**User_1**
+username: admin
+password: admin
+
+**User_2**
+username: test
+password: test
+
+**User_3**
+username: andrej1
+password: andrej1

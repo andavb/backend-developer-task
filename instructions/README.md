@@ -1,11 +1,5 @@
-# Setup
+## Run the project
 
-Provide a file with instructions on how to set up and use the API:
-* dependencies
-* variables to be set
-* run configs
-* file system permissions
-* ...
+Before running, in project folder create .env file, you can copy structure from .env example, then run below command (you need to have docker installed localy):
 
-### Optional
-You can provide Docker and Docker Compose files instead.
+### `docker-compose up --build`
