@@ -17,7 +17,7 @@ const swaggerOptions = {
       title: 'backend-developer-task',
       version: '1.0.0',
       description:
-        'Notes can be organized into folders for easier management.   API should allow user authentication through basic HTTP authentication (username and password).   The goal is to build a simple but secure and easily scalable service.',
+        'To login send a request "/auth/login" with username and password, you will get a response body with access_token, copy access token value, click on the button "Authorize" and then you can use protected routes.',
     },
     basePath: '/',
     components: {
