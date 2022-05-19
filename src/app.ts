@@ -8,6 +8,7 @@ const swaggerUI = require('swagger-ui-express');
 //Controllers ...
 import './controllers/authentication.controller';
 import './controllers/folder.controller';
+import './controllers/note.controller';
 
 const swaggerOptions = {
   swaggerDefinition: {

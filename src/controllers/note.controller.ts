@@ -63,16 +63,52 @@ export class NoteController {
    *  post:
    *   tags: [Note]
    *   summary: Create note
-   *   requestBody:
-   *     required: true
-   *     content:
-   *       application/json:
-   *         schema:
-   *           type: object
-   *           properties:
-   *             name:
-   *               type: string
-   *               example: Example note
+   *   parameters:
+   *     - in: query
+   *       name: name
+   *       required: true
+   *       description: Input name of the Note
+   *       schema:
+   *         type: string
+   *     - in: query
+   *       name: heading
+   *       required: true
+   *       description: Input heading
+   *       schema:
+   *         type: string
+   *     - in: query
+   *       name: folder
+   *       required: true
+   *       description: Folder id
+   *       schema:
+   *         type: string
+   *     - in: query
+   *       name: type
+   *       required: true
+   *       description: Choose note type
+   *       schema:
+   *         type: string
+   *         enum:
+   *           - TEXT
+   *           - LIST
+   *     - in: query
+   *       name: share_policy
+   *       required: true
+   *       description: Choose share policy
+   *       schema:
+   *         type: string
+   *         enum:
+   *           - PUBLIC
+   *           - PRIVATE
+   *     - in: query
+   *       name: note_body
+   *       required: true
+   *       minItems: 1
+   *       description: Add note body
+   *       schema:
+   *         type: array
+   *         items:
+   *           type: string
    *   responses:
    *    200:
    *      description: Created
@@ -95,7 +131,8 @@ export class NoteController {
    */
   @post('/create')
   async create(req: Request, res: Response) {
-    const payload = req.body as NoteCreationAttrubutes;
+    let payload = req.body as NoteCreationAttrubutes;
+    payload = { ...payload, ...req.query };
 
     let u = await noteService.create(payload);
     return res.json({ isSuccess: true, data: u });
@@ -107,19 +144,41 @@ export class NoteController {
    *  put:
    *   tags: [Note]
    *   summary: Update note
-   *   requestBody:
-   *     required: true
-   *     content:
-   *       application/json:
-   *         schema:
-   *           type: object
-   *           properties:
-   *             note:
-   *               type: string
-   *               example: note_id
-   *             name:
-   *               type: string
-   *               example: Example note
+   *   parameters:
+   *     - in: query
+   *       name: note
+   *       required: true
+   *       description: Note id
+   *       schema:
+   *         type: string
+   *         example: note_id
+   *     - in: query
+   *       name: name
+   *       required: true
+   *       description: New name of the Note
+   *       schema:
+   *         type: string
+   *     - in: query
+   *       name: heading
+   *       required: true
+   *       description: New heading of the Note
+   *       schema:
+   *         type: string
+   *     - in: query
+   *       name: folder
+   *       description: Change folder
+   *       schema:
+   *         type: string
+   *         example: folder_id
+   *     - in: query
+   *       name: share_policy
+   *       description: Change share policy
+   *       required: true
+   *       schema:
+   *         type: string
+   *         enum:
+   *           - PUBLIC
+   *           - PRIVATE
    *   responses:
    *    200:
    *      description: Updated
@@ -142,7 +201,8 @@ export class NoteController {
    */
   @put('/update')
   async update(req: Request, res: Response) {
-    const payload = req.body as NoteUpdateAttrubutes;
+    let payload = req.body as NoteUpdateAttrubutes;
+    payload = { ...payload, ...req.query };
 
     let u = await noteService.update(payload);
     return res.json({ isSuccess: true, data: u });
@@ -154,16 +214,14 @@ export class NoteController {
    *  delete:
    *   tags: [Note]
    *   summary: Remove note
-   *   requestBody:
-   *     required: true
-   *     content:
-   *       application/json:
-   *         schema:
-   *           type: object
-   *           properties:
-   *             note:
-   *               type: string
-   *               example: note_id
+   *   parameters:
+   *     - in: query
+   *       name: note
+   *       required: true
+   *       description: Note id
+   *       schema:
+   *         type: string
+   *         example: note_id
    *   responses:
    *    200:
    *      description: Removed
@@ -186,7 +244,8 @@ export class NoteController {
    */
   @del('/remove')
   async remove(req: Request, res: Response) {
-    const payload = req.body as NoteRemoveAttrubutes;
+    let payload = req.body as NoteUpdateAttrubutes;
+    payload = { ...payload, ...req.query };
 
     let u = await noteService.remove(payload);
     return res.json({ isSuccess: true, data: u });

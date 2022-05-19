@@ -1,5 +1,6 @@
-import { check } from 'express-validator';
-import { Note } from '../entities';
+import { check, query } from 'express-validator';
+import { Note, TypeOfNote, TypeOfSharePolicy } from '../entities';
+import { checkIfFolderExists } from './folder.rules';
 
 export const note = {
   get: [
@@ -12,18 +13,75 @@ export const note = {
   ],
   create: [
     check('user_id').exists(),
-    check('name')
+    query('name')
       .exists({ checkFalsy: true })
-      .withMessage('Missing note name')
+      .withMessage('Note name is missing')
       .bail(),
+    query('folder')
+      .exists()
+      .withMessage('Folder id is missing')
+      .bail()
+      .custom(
+        async (folder, { req }) => await checkIfFolderExists(folder, req)
+      ),
+    query('heading')
+      .exists({ checkFalsy: true })
+      .withMessage('Heading is missing')
+      .bail(),
+    query('type')
+      .exists()
+      .withMessage('Type is missing')
+      .bail()
+      .custom(
+        (
+          type,
+          {
+            req: {
+              query: { note_body },
+            },
+          }
+        ) => {
+          if (!(type in TypeOfNote)) throw new Error('Type does not exist');
+          if (type === TypeOfNote.TEXT && Array.isArray(note_body))
+            throw new Error(
+              'Type is TEXT, but you provided array of Note Bodies'
+            );
+          return true;
+        }
+      ),
+    query('share_policy')
+      .exists()
+      .withMessage('Share policy is missing')
+      .bail()
+      .custom((type) => {
+        if (!(type in TypeOfSharePolicy))
+          throw new Error('Share policy does not exist');
+        return true;
+      }),
+    query('note_body').exists(),
   ],
   update: [
     check('user_id').exists(),
-    check('note')
+    query('name')
       .exists({ checkFalsy: true })
+      .withMessage('Name is missing')
+      .bail(),
+    query('heading')
+      .exists({ checkFalsy: true })
+      .withMessage('Heading is missing')
+      .bail(),
+    query('note')
+      .exists()
       .withMessage('Note id is missing')
       .bail()
-      .custom(async (id, { req }) => await checkIfNoteExists(id, req)),
+      .custom(async (note, { req }) => await checkIfNoteExists(note, req)),
+    query('folder')
+      .exists()
+      .withMessage('Folder id is missing')
+      .bail()
+      .custom(
+        async (folder, { req }) => await checkIfFolderExists(folder, req)
+      ),
   ],
   remove: [
     check('user_id').exists(),

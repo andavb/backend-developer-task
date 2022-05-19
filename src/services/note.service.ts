@@ -1,4 +1,12 @@
-import { Note, User } from '../entities';
+import {
+  Folder,
+  Note,
+  NoteBody,
+  NoteSharePolicy,
+  NoteType,
+  TypeOfNote,
+  User,
+} from '../entities';
 import {
   NoteCreationAttrubutes,
   NoteGetAttrubutes,
@@ -11,26 +19,57 @@ export class NoteService {
     return await Note.findOne(note);
   }
 
-  async create({ name, user_id }: NoteCreationAttrubutes) {
-    let user = await User.findOne({ id: user_id });
-    let folder: Note = await Note.create({ name, user }).save();
+  async create(note: NoteCreationAttrubutes) {
+    let user = await User.findOne({ id: note.user_id });
+    let f: Folder = await Folder.findOne({ id: note.folder });
+    let nsp: NoteSharePolicy = await NoteSharePolicy.findOne({
+      policy: note.share_policy,
+    });
+    let t: NoteType = await NoteType.findOne({ type: note.type });
 
-    return {
-      id: folder.id,
-      name: folder.name,
-      user_id: folder.user.id,
-    };
+    let n: Note = await Note.create({
+      user,
+      folder: f,
+      name: note.name,
+      heading: note.heading,
+      share_policy: nsp,
+      type: t,
+    }).save();
+
+    if (
+      note.type === TypeOfNote.TEXT ||
+      (note.type === TypeOfNote.LIST && !Array.isArray(note.note_body))
+    ) {
+      await NoteBody.create({
+        note: n,
+        text: note.note_body as string,
+      }).save();
+    } else if (note.type === TypeOfNote.LIST && Array.isArray(note.note_body)) {
+      note.note_body.forEach(async (text) => {
+        await NoteBody.create({
+          note: n,
+          text: text,
+        }).save();
+      });
+    }
+
+    return { ...n, user: n.user.id };
   }
 
-  async update({ note, name }: NoteUpdateAttrubutes) {
-    await Note.update(note, {
-      name,
+  async update(note: NoteUpdateAttrubutes) {
+    let f: Folder = await Folder.findOne({ id: note.folder });
+    let nsp: NoteSharePolicy = await NoteSharePolicy.findOne({
+      policy: note.share_policy,
     });
 
-    return {
-      id: note,
-      name: name,
-    };
+    await Note.update(note.note, {
+      name: note.name,
+      heading: note.heading,
+      share_policy: nsp,
+      folder: f,
+    });
+
+    return { note };
   }
 
   async remove({ note }: NoteRemoveAttrubutes) {
