@@ -14,7 +14,7 @@ export class Note extends Model {
   @Column()
   heading: string;
 
-  @ManyToOne(() => Folder, (folder) => folder.notes)
+  @ManyToOne(() => Folder, (folder) => folder.notes, { onDelete: 'CASCADE' })
   @JoinColumn({
     name: 'folder_id',
   })

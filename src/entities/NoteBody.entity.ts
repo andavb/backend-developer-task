@@ -7,7 +7,7 @@ export class NoteBody extends Model {
   @Column()
   text: string;
 
-  @ManyToOne(() => Note, (note) => note.noteBodies)
+  @ManyToOne(() => Note, (note) => note.noteBodies, { onDelete: 'CASCADE' })
   @JoinColumn({
     name: 'note_id',
   })
