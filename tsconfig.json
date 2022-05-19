@@ -15,5 +15,8 @@
       "allowSyntheticDefaultImports": true /* Allow 'import x from y' when a module doesn't have a default export. */
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    "src/tests"
+  ]
 }
