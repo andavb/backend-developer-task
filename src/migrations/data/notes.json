@@ -1,0 +1,101 @@
+[
+  {
+    "name": "Note_user1_1",
+    "heading": "Title 1",
+    "share_policy": "PRIVATE",
+    "note_type": "LIST",
+    "folder_name": "Folder_user1_1",
+    "note_body": [
+      {
+        "text": "Lorem ipsum text1 user 1"
+      },
+      {
+        "text": "Lorem ipsum text2 user 1"
+      },
+      {
+        "text": "Lorem ipsum text3 user 1"
+      },
+      {
+        "text": "Lorem ipsum text4 user 1"
+      }
+    ],
+    "user": 1
+  },
+  {
+    "name": "Note_user1_2",
+    "heading": "Title 2",
+    "share_policy": "PUBLIC",
+    "note_type": "TEXT",
+    "folder_name": "Folder_user1_1",
+    "note_body": [
+      {
+        "text": "Lorem ipsum text1 user 1"
+      }
+    ],
+    "user": 1
+  },
+  {
+    "name": "Note_user1_3",
+    "heading": "Title 3",
+    "share_policy": "PRIVATE",
+    "note_type": "LIST",
+    "folder_name": "Folder_user1_2",
+    "note_body": [
+      {
+        "text": "Lorem ipsum text1 user 1"
+      }
+    ],
+    "user": 1
+  },
+  {
+    "name": "Note_user1_4",
+    "heading": "Title 4",
+    "share_policy": "PRIVATE",
+    "note_type": "LIST",
+    "folder_name": "Folder_user1_3",
+    "note_body": [
+      {
+        "text": "Lorem ipsum text1 user 1"
+      },
+      {
+        "text": "Lorem ipsum text2 user 1"
+      }
+    ],
+    "user": 1
+  },
+  {
+    "name": "Note_user2_1",
+    "heading": "Title 5",
+    "share_policy": "PRIVATE",
+    "note_type": "LIST",
+    "folder_name": "Folder_user2_1",
+    "note_body": [
+      {
+        "text": "Lorem ipsum text1 user 2"
+      },
+      {
+        "text": "Lorem ipsum text2 user 2"
+      },
+      {
+        "text": "Lorem ipsum text3 user 2"
+      },
+      {
+        "text": "Lorem ipsum text4 user 2"
+      }
+    ],
+    "user": 2
+  },
+  {
+    "name": "Note_user2_2",
+    "heading": "Title 6",
+    "share_policy": "PUBLIC",
+    "note_type": "TEXT",
+    "folder_name": "Folder_user2_2",
+    "note_body": [
+      {
+        "text": "Lorem ipsum text1 user 2"
+      }
+    ],
+    "user": 2
+  }
+]
