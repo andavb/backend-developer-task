@@ -1,6 +1,3 @@
 # Database
 
-Provide a file for database import with prepared mock data for:
-* users
-* folders
-* notes
+The database is seeded on app start, so there is no need to manually run migrations (you don't need to do anything :))
